@@ -1,8 +1,8 @@
 /*
  * Licence: CC BY-SA 4.0
  * 
- * 
  */
+
 package pl.test.tasklocker;
 
 import java.io.IOException;
@@ -11,9 +11,9 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 /**
- *
  * @author hiroSzymon
  */
+
 public class TaskLocker {
     public static void main(String args[]){
         
