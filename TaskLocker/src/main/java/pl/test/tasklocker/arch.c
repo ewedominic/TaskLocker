@@ -1,4 +1,4 @@
-#include <jni.h>
+#include "jni.h"
 #include <stdio.h>
 #include "pl_test_tasklocker_TaskLocker.h"
 

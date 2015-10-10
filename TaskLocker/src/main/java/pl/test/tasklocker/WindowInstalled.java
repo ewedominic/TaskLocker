@@ -6,11 +6,14 @@ package pl.test.tasklocker;
 
 import java.net.URI;
 import java.awt.Desktop;
+import java.awt.Image;
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
+import javax.imageio.ImageIO;
 
 /**
  * @author hiroSzymon
@@ -18,7 +21,7 @@ import java.util.prefs.Preferences;
 
 @SuppressWarnings("serial")
 public class WindowInstalled extends javax.swing.JFrame {
-  
+    Image img;
     Thread thread = new Thread(){
     @Override
     public void run(){
@@ -34,14 +37,21 @@ public class WindowInstalled extends javax.swing.JFrame {
           } catch (IOException ex) {
               Logger.getLogger(WindowInstalled.class.getName()).log(Level.SEVERE, null, ex);
           }
+          System.out.println(666);
           System.exit(0);
       }
         }
      };
     
     public WindowInstalled() {
-        initComponents();
-        thread.start();
+        File plik = new File(".\\icon.png");
+        try {
+            img = ImageIO.read(plik);
+        } catch (IOException ex) {
+            Logger.getLogger(WindowNotInstalled.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        initComponents();        
+        thread.start();        
     }
     Preferences p = Preferences.userRoot();
     
@@ -61,12 +71,18 @@ public class WindowInstalled extends javax.swing.JFrame {
         javax.swing.JLabel number3 = new javax.swing.JLabel();
         javax.swing.JTextField task3 = new javax.swing.JTextField();
         check3 = new javax.swing.JCheckBox();
+        javax.swing.JButton jButton1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Task Locker");
         setAlwaysOnTop(true);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                actionOnClose(evt);
+            }
+        });
 
         Emergency.setText("Emergency");
         Emergency.setPreferredSize(new java.awt.Dimension(97, 25));
@@ -108,6 +124,13 @@ public class WindowInstalled extends javax.swing.JFrame {
 
         check3.setText("Done!");
 
+        jButton1.setText("Add");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -140,6 +163,10 @@ public class WindowInstalled extends javax.swing.JFrame {
                         .addGap(18, 18, Short.MAX_VALUE)
                         .addComponent(check3)))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(139, 139, 139)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -161,7 +188,9 @@ public class WindowInstalled extends javax.swing.JFrame {
                     .addComponent(task3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(number3)
                     .addComponent(check3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 118, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -175,11 +204,9 @@ public class WindowInstalled extends javax.swing.JFrame {
 
     private void UninstallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UninstallActionPerformed
         p.remove("TaskLockerInstalled");
-        try {
-            Runtime.getRuntime().exec("REG ADD \"HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" /v Shell /t REG_SZ /d explorer.exe /f");
-        } catch (IOException ex) {
-            System.err.println("Admin rights! "+ex);
-        }
+        System.out.println(144);
+        System.out.println(666);
+        System.exit(0);
     }//GEN-LAST:event_UninstallActionPerformed
 
     private void EmergencyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EmergencyActionPerformed
@@ -188,20 +215,19 @@ public class WindowInstalled extends javax.swing.JFrame {
             } catch (IOException | URISyntaxException  ex) {
             System.err.println("Fuckbrowser!"+ex);
             }
-        
-            /*try {
-            String[] paf = {"\"", "C:\\Program Files(x86)\\Mozilla Firefox\\firefox.exe","%ProgramFiles%\\Mozilla Firefox\\firefox.exe" };
-            if (System.getenv("ProgramFiles(X86)") !=(null)){
-            Runtime.getRuntime().exec(paf[0]+paf[1]+paf[0]);
-            }
-            else{
-            Runtime.getRuntime().exec(paf[0]+paf[2]+paf[0]);
-            }
-            
-            } catch (IOException ex) {
-            System.err.println("Admin rights! "+ex);
-            }*/
     }//GEN-LAST:event_EmergencyActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        javax.swing.JLabel numberAdd = new javax.swing.JLabel();
+        javax.swing.JTextField taskAdd = new javax.swing.JTextField();
+        javax.swing.JCheckBox checkAdd = new javax.swing.JCheckBox();
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void actionOnClose(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_actionOnClose
+        System.out.println(666);
+        System.exit(0);
+    }//GEN-LAST:event_actionOnClose
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     javax.swing.JCheckBox check1;
