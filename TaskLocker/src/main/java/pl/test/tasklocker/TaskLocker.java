@@ -5,13 +5,7 @@
 
 package pl.test.tasklocker;
 
-import java.awt.Image;
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.prefs.Preferences;
-import javax.imageio.ImageIO;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -29,7 +23,8 @@ public class TaskLocker {
     public static void main(String args[]){
         //System.out.println("144");
         
-        
+        Debug debug=new Debug();
+        debug.setVisible(true);
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         }catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {}
@@ -66,5 +61,6 @@ public class TaskLocker {
             windowNotInstalled.setVisible(true);
             
         }
+        
     }      
 }

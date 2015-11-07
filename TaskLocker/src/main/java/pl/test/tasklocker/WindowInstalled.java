@@ -7,11 +7,13 @@ package pl.test.tasklocker;
 import java.net.URI;
 import java.awt.Desktop;
 import java.awt.Image;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.net.URISyntaxException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 import javax.imageio.ImageIO;
 
@@ -26,18 +28,13 @@ public class WindowInstalled extends javax.swing.JFrame {
     @Override
     public void run(){
       if(!(check1.isSelected()&&check2.isSelected()&&check3.isSelected())) try {
-          thread.sleep(100);
+          sleep(100);
           run();
       } catch (InterruptedException ex) {
-          Logger.getLogger(WindowInstalled.class.getName()).log(Level.SEVERE, null, ex);
+          System.err.println("Thread err"+ex);
       } 
       else {
-          try {
-              Runtime.getRuntime().exec("explorer.exe");
-          } catch (IOException ex) {
-              Logger.getLogger(WindowInstalled.class.getName()).log(Level.SEVERE, null, ex);
-          }
-          System.out.println(666);
+          System.out.println(100);
           System.exit(0);
       }
         }
@@ -48,7 +45,7 @@ public class WindowInstalled extends javax.swing.JFrame {
         try {
             img = ImageIO.read(plik);
         } catch (IOException ex) {
-            Logger.getLogger(WindowNotInstalled.class.getName()).log(Level.SEVERE, null, ex);
+          System.err.println("Icon open err"+ex);
         }
         initComponents();        
         thread.start();        
@@ -73,16 +70,11 @@ public class WindowInstalled extends javax.swing.JFrame {
         check3 = new javax.swing.JCheckBox();
         javax.swing.JButton jButton1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Task Locker");
         setAlwaysOnTop(true);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setResizable(false);
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                actionOnClose(evt);
-            }
-        });
 
         Emergency.setText("Emergency");
         Emergency.setPreferredSize(new java.awt.Dimension(97, 25));
@@ -204,6 +196,12 @@ public class WindowInstalled extends javax.swing.JFrame {
 
     private void UninstallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UninstallActionPerformed
         p.remove("TaskLockerInstalled");
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(
+              new FileOutputStream("settings.ini"), "utf-8"))) {
+        writer.write("Installed = 1");
+        } catch (IOException ex) {
+        System.err.println("settings.ini error:"+ex);
+        }
         System.out.println(144);
         System.out.println(666);
         System.exit(0);
@@ -218,16 +216,11 @@ public class WindowInstalled extends javax.swing.JFrame {
     }//GEN-LAST:event_EmergencyActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        javax.swing.JLabel numberAdd = new javax.swing.JLabel();
+       /* javax.swing.JLabel numberAdd = new javax.swing.JLabel();
         javax.swing.JTextField taskAdd = new javax.swing.JTextField();
         javax.swing.JCheckBox checkAdd = new javax.swing.JCheckBox();
-        
+        */
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void actionOnClose(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_actionOnClose
-        System.out.println(666);
-        System.exit(0);
-    }//GEN-LAST:event_actionOnClose
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     javax.swing.JCheckBox check1;

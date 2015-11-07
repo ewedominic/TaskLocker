@@ -5,10 +5,12 @@
 package pl.test.tasklocker;
 
 import java.awt.Image;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.prefs.Preferences;
 import javax.imageio.ImageIO;
 
@@ -24,7 +26,7 @@ Image img;
         try {
             img = ImageIO.read(plik);
         } catch (IOException ex) {
-            Logger.getLogger(WindowNotInstalled.class.getName()).log(Level.SEVERE, null, ex);
+          System.err.println("Icon open err"+ex);
         }
         initComponents();
     }
@@ -35,16 +37,11 @@ Image img;
 
         javax.swing.JButton Install = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Task Locker");
         setAlwaysOnTop(true);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setIconImage(img);
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                actionOnClose(evt);
-            }
-        });
 
         Install.setText("Install");
         Install.addActionListener(new java.awt.event.ActionListener() {
@@ -75,17 +72,18 @@ Image img;
 
     private void InstallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InstallActionPerformed
         p.put("TaskLockerInstalled","true");
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(
+              new FileOutputStream("settings.ini"), "utf-8"))) {
+        writer.write("Installed = 1");
+        } catch (IOException ex) {
+        System.err.println("settings.ini error:"+ex);
+        }
         System.out.println(44);
         WindowInstalled windowInstalled = new WindowInstalled();
         this.setVisible(false);
         this.dispose();
         windowInstalled.setVisible(true);
     }//GEN-LAST:event_InstallActionPerformed
-
-    private void actionOnClose(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_actionOnClose
-       System.out.println(666);
-       System.exit(0);
-    }//GEN-LAST:event_actionOnClose
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
